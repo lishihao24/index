@@ -1,0 +1,662 @@
+/* ============================================================
+   Matisse Cut-Out & Petroglyph System — 李世豪个人网站
+   ============================================================ */
+
+/* ── 字体与根变量 ── */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&display=swap');
+
+:root {
+  /* 冷灰档案纸画廊色调 */
+  --stone-100: #f3f2ee;
+  --stone-200: #e7e5de;
+  --stone-300: #d0cfc8;
+  --stone-400: #a9a8a1;
+  --stone-500: #7b7a74;
+  --stone-600: #4b4a46;
+  --stone-700: #2b2b29;
+  --stone-800: #161615;
+
+  /* 旧照片/印刷点缀 */
+  --cut-terracotta: #2f5f58;
+  --cut-ochre:     #6a8e88;
+  --cut-sap:       #2a3f36;
+  --cut-indigo:    #2a3d4a;
+  --cut-ink:       #161615;
+
+  --font-serif: 'Noto Serif SC', 'STSong', 'Songti SC', 'SimSun', Georgia, serif;
+  --font-mono:  'Courier New', Courier, monospace;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: auto; /* 禁用平滑滚动，保留手工跳跃感 */
+}
+
+body {
+  font-family: var(--font-serif);
+  background: radial-gradient(ellipse at 30% 20%, rgba(47,95,88,0.06) 0%, transparent 55%),
+              radial-gradient(ellipse at 70% 80%, rgba(42,61,74,0.06) 0%, transparent 60%),
+              linear-gradient(180deg, var(--stone-100) 0%, var(--stone-200) 100%);
+  background-attachment: fixed;
+  color: var(--stone-800);
+  line-height: 1.75;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* 木纹波浪纹理层 */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.55;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.65;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='1600' viewBox='0 0 1200 1600'%3E%3Cg fill='none' stroke='%23161615' stroke-opacity='0.16'%3E%3Crect x='120' y='180' width='960' height='1240' stroke-width='2'/%3E%3Cpath d='M120 320H1080M120 420H1080M120 520H1080M120 620H1080M120 720H1080M120 820H1080M120 920H1080M120 1020H1080M120 1120H1080M120 1220H1080M120 1320H1080' stroke-width='1'/%3E%3Cpath d='M210 180V1420M420 180V1420M690 180V1420M930 180V1420' stroke-width='1'/%3E%3C/g%3E%3Cg fill='none' stroke='%232f5f58' stroke-opacity='0.10' stroke-width='2'%3E%3Cpath d='M170 260c90 20 160-10 220-40'/%3E%3Cpath d='M720 1160c60 40 140 50 260 10'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: min(86vw, 980px) auto;
+  background-repeat: no-repeat;
+  background-position: 50% 44%;
+  backdrop-filter: blur(0.6px) saturate(0.95);
+  pointer-events: none;
+}
+
+/* ============================================================
+   1. 剪纸形状工具类
+   ============================================================ */
+
+/* 基础剪纸面板 — 不规则多边形 */
+.cut-panel {
+  background: rgba(243,242,238,0.78);
+  color: var(--stone-800);
+  border: 2px solid rgba(22,22,21,0.68);
+  backdrop-filter: blur(1.4px);
+  position: relative;
+  transform: rotate(-0.35deg);
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.45s ease;
+}
+
+.cut-panel:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 3px 4px 0 rgba(0,0,0,0.25);
+}
+
+/* 不同剪纸轮廓 — 使用 clip-path 制造裁剪边缘 */
+.cut-1 { clip-path: polygon(0 0, 100% 2%, 98% 100%, 2% 98%); }
+.cut-2 { clip-path: polygon(2% 0, 100% 0, 96% 100%, 0 96%); }
+.cut-3 { clip-path: polygon(0 4%, 98% 0, 100% 96%, 4% 100%); }
+.cut-4 { clip-path: polygon(3% 2%, 97% 0, 100% 98%, 0 100%); }
+
+/* 浅色剪纸（亮色块） */
+.cut-dark {
+  background: var(--stone-200);
+  color: var(--stone-800);
+  border-color: var(--stone-500);
+}
+.cut-dark:hover {
+  box-shadow: 3px 4px 0 rgba(0,0,0,0.25);
+}
+
+/* 点缀色剪纸 */
+.cut-red   { background: var(--cut-terracotta); color: var(--stone-100); border-color: #7a3024; }
+.cut-ochre { background: var(--cut-ochre);     color: var(--stone-800); border-color: #8a6f28; }
+.cut-sap   { background: var(--cut-sap);       color: var(--stone-100); border-color: #3a522e; }
+.cut-indigo{ background: var(--cut-indigo);    color: var(--stone-100); border-color: #1e2f3d; }
+
+/* ============================================================
+   2. 手工动画系统（逐帧感，刻意保留瑕疵）
+   ============================================================ */
+
+@keyframes gentle-rise {
+  0%   { transform: translateY(24px) rotate(-0.6deg); opacity: 0; }
+  100% { transform: translateY(0) rotate(0deg); opacity: 1; }
+}
+
+@keyframes slow-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(-6px) rotate(0.3deg); }
+}
+
+.anim-drift {
+  animation: gentle-rise 0.8s ease both;
+}
+.anim-drift-1 { animation-delay: 0.08s; }
+.anim-drift-2 { animation-delay: 0.18s; }
+.anim-drift-3 { animation-delay: 0.30s; }
+.anim-drift-4 { animation-delay: 0.44s; }
+.anim-drift-5 { animation-delay: 0.58s; }
+
+/* ============================================================
+   3. 布局骨架
+   ============================================================ */
+
+.site-header {
+  padding: 28px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 50;
+}
+
+.site-header .glyph-mark {
+  width: 52px;
+  height: 52px;
+  border: 3px solid var(--stone-700);
+  background: var(--stone-100);
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  font-size: 22px;
+  transform: rotate(-0.5deg);
+  flex-shrink: 0;
+}
+
+ .site-header .glyph-mark .eye-mark {
+  width: 40px;
+  height: 40px;
+  display: block;
+  stroke: var(--stone-700);
+  fill: none;
+  stroke-width: 2.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+ }
+
+ .site-header .glyph-mark .eye-mark .eye-follow {
+  transform-origin: 26px 26px;
+  transition: transform 0.15s ease-out;
+ }
+
+ .site-header .glyph-mark .eye-mark .eye-follow circle {
+  stroke: var(--stone-600);
+  fill: var(--stone-300);
+ }
+
+ .site-header .glyph-mark .eye-mark .eye-follow .pupil {
+  fill: var(--cut-terracotta);
+  stroke: none;
+ }
+
+ .site-header .glyph-mark .eye-mark .eye-follow .pointer {
+  fill: var(--stone-700);
+  stroke: none;
+ }
+
+.site-header .header-contact {
+  font-size: 14px;
+  text-align: left;
+  line-height: 1.8;
+  font-weight: 400;
+  letter-spacing: 1.5px;
+  font-family: var(--font-mono);
+  padding: 8px 12px;
+  display: inline-block;
+}
+
+.site-header .header-contact .hc-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.site-header .header-contact .hc-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--stone-100);
+  background: var(--cut-indigo);
+  padding: 2px 6px;
+  border-radius: 3px;
+  flex-shrink: 0;
+  letter-spacing: 1.5px;
+}
+
+.site-header .header-contact .hc-value {
+  position: relative;
+  cursor: pointer;
+  color: var(--stone-700);
+  transition: letter-spacing 0.35s ease, color 0.25s ease;
+  letter-spacing: 1.5px;
+}
+
+.site-header .header-contact .hc-value:hover {
+  letter-spacing: 2.5px;
+  color: var(--stone-800);
+}
+
+/* underline animation */
+.site-header .header-contact .hc-value::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background: var(--stone-600);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s ease;
+}
+
+.site-header .header-contact .hc-value:hover::after {
+  transform: scaleX(1);
+}
+
+/* tooltip */
+.site-header .header-contact .hc-value::before {
+  content: 'Click to copy';
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 6px);
+  transform: translateX(-50%) translateY(4px);
+  background: var(--stone-800);
+  color: var(--stone-100);
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  padding: 4px 8px;
+  border-radius: 3px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.site-header .header-contact .hc-value:hover::before {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.site-header .header-contact .hc-value.copied::before {
+  content: 'Copied!';
+}
+
+/* 主内容容器 */
+.page-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 28px 80px;
+}
+
+/* 剪纸导航带 */
+.cut-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 40px;
+  padding: 0 4px;
+}
+
+.cut-nav a {
+  display: inline-block;
+  padding: 10px 22px;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--stone-800);
+  background: var(--stone-200);
+  border: 2px solid var(--stone-400);
+  position: relative;
+  transform: rotate(-0.4deg);
+  transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
+  clip-path: polygon(0 0, 100% 4%, 98% 100%, 2% 96%);
+}
+
+.cut-nav a:nth-child(2) { transform: rotate(0.3deg); }
+.cut-nav a:nth-child(3) { transform: rotate(-0.25deg); }
+.cut-nav a:nth-child(4) { transform: rotate(0.4deg); }
+.cut-nav a:nth-child(5) { transform: rotate(-0.35deg); }
+.cut-nav a:nth-child(6) { transform: rotate(0.2deg); }
+
+.cut-nav a:hover,
+.cut-nav a.active {
+  background: var(--stone-700);
+  color: var(--stone-100);
+  transform: rotate(0deg) translateY(-2px) scale(1.03);
+  box-shadow: 3px 4px 0 rgba(0,0,0,0.25);
+}
+
+/* ============================================================
+   4. 首页封面（石刻巨像 + 剪纸飘带）
+   ============================================================ */
+
+.hero-block {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 32px;
+  align-items: center;
+  min-height: 52vh;
+  margin-bottom: 48px;
+}
+
+.hero-stone {
+  background: var(--cut-indigo);
+  color: var(--stone-100);
+  padding: 52px 44px;
+  position: relative;
+  clip-path: polygon(0 0, 96% 3%, 100% 94%, 4% 100%);
+  transform: rotate(0.25deg);
+}
+
+.hero-stone::after {
+  content: '';
+  position: absolute;
+  top: 18px; right: 18px;
+  width: 36px; height: 36px;
+  border: 3px solid var(--stone-300);
+  opacity: 0.5;
+  transform: rotate(15deg);
+  pointer-events: none;
+}
+
+.hero-stone h1 {
+  font-size: clamp(38px, 5.5vw, 64px);
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: 4px;
+  margin-bottom: 18px;
+}
+
+.hero-stone .subtitle {
+  font-size: 16px;
+  color: var(--stone-200);
+  letter-spacing: 2px;
+  margin-bottom: 28px;
+}
+
+.hero-stone .contact-strip {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--stone-300);
+  line-height: 1.8;
+  border-top: 1px dashed var(--stone-400);
+  padding-top: 14px;
+  margin-top: 10px;
+}
+
+/* 右侧剪纸肖像区 */
+.hero-cutouts {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.cut-figure {
+  width: 100%;
+  height: 180px;
+  background: var(--cut-terracotta);
+  clip-path: polygon(6% 0, 94% 8%, 100% 78%, 18% 100%, 0 62%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--stone-100);
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: 6px;
+  transform: rotate(-0.4deg);
+  border: 3px solid var(--stone-700);
+  animation: gentle-rise 0.8s ease 0.2s both;
+}
+
+.cut-figure.small {
+  height: 120px;
+  width: 88%;
+  background: var(--cut-ochre);
+  clip-path: polygon(4% 10%, 100% 0, 96% 100%, 8% 90%);
+  font-size: 18px;
+  transform: rotate(0.3deg);
+  animation-delay: 0.4s;
+}
+
+.cut-figure.indigo {
+  height: 100px;
+  width: 72%;
+  background: var(--cut-indigo);
+  clip-path: polygon(0 6%, 92% 0, 100% 88%, 12% 100%);
+  font-size: 15px;
+  letter-spacing: 3px;
+  transform: rotate(-0.2deg);
+  animation-delay: 0.6s;
+}
+
+/* ============================================================
+   5. 板块通用排版
+   ============================================================ */
+
+.section-title {
+  display: inline-block;
+  font-size: clamp(26px, 3.5vw, 38px);
+  font-weight: 900;
+  letter-spacing: 3px;
+  color: var(--stone-800);
+  margin-bottom: 28px;
+  padding: 8px 20px;
+  background: rgba(231,229,222,0.86);
+  border: 3px solid rgba(22,22,21,0.72);
+  transform: none;
+  position: relative;
+}
+
+.section-title::before {
+  content: '';
+  position: absolute;
+  top: -10px; left: 18px;
+  width: 14px; height: 14px;
+  background: var(--cut-terracotta);
+  border: 2px solid var(--stone-400);
+  transform: rotate(18deg);
+}
+
+.timeline {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 24px;
+  margin-bottom: 36px;
+  align-items: start;
+}
+
+@media (max-width: 640px) {
+  .timeline {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}
+
+.time-stone {
+  background: rgba(231,229,222,0.86);
+  color: var(--stone-800);
+  border: 2px solid rgba(22,22,21,0.6);
+  padding: 10px 16px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  text-align: center;
+  line-height: 1.4;
+  clip-path: polygon(4% 0, 100% 4%, 96% 100%, 0 96%);
+  transform: rotate(-0.3deg);
+  white-space: pre-line;
+}
+
+.time-stone .range {
+  font-size: 12px;
+  color: var(--stone-600);
+  margin-top: 4px;
+  display: block;
+}
+
+.card-body {
+  background: rgba(243,242,238,0.82);
+  border: 2px solid rgba(22,22,21,0.62);
+  backdrop-filter: blur(1.6px);
+  padding: 24px 28px;
+  clip-path: polygon(0 1%, 98% 0, 100% 98%, 2% 100%);
+  transform: rotate(0.2deg);
+  position: relative;
+}
+
+.card-body h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  letter-spacing: 1px;
+  color: var(--stone-800);
+}
+
+.card-body .meta {
+  font-size: 13px;
+  color: var(--stone-500);
+  font-family: var(--font-mono);
+  margin-bottom: 14px;
+  display: block;
+}
+
+.card-body p,
+.card-body li {
+  font-size: 15px;
+  color: var(--stone-600);
+  margin-bottom: 10px;
+}
+
+.card-body ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.card-body li {
+  position: relative;
+  padding-left: 18px;
+}
+
+.card-body li::before {
+  content: '◢';
+  position: absolute;
+  left: 0;
+  top: 1px;
+  color: var(--cut-terracotta);
+  font-size: 11px;
+  transform: rotate(12deg);
+}
+
+/* 高亮块 */
+.impact-strip {
+  display: inline-block;
+  background: var(--cut-ochre);
+  color: var(--stone-100);
+  padding: 4px 10px;
+  font-size: 13px;
+  font-weight: 700;
+  border: 2px solid rgba(22,22,21,0.58);
+  transform: rotate(-0.35deg);
+  margin-top: 8px;
+}
+
+/* ============================================================
+   6. 技能页特殊组件
+   ============================================================ */
+
+.skill-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 18px;
+  margin-top: 10px;
+}
+
+.skill-chip {
+  background: rgba(243,242,238,0.78);
+  color: var(--stone-800);
+  border: 2px solid rgba(22,22,21,0.62);
+  backdrop-filter: blur(1.2px);
+  padding: 14px 18px;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  clip-path: polygon(0 4%, 96% 0, 100% 96%, 4% 100%);
+  transform: rotate(-0.5deg);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.3s ease;
+  cursor: default;
+}
+
+.skill-chip:nth-child(even) { transform: rotate(0.4deg); }
+
+.skill-chip:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 3px 4px 0 rgba(0,0,0,0.25);
+}
+
+/* ============================================================
+   7. 页脚与装饰
+   ============================================================ */
+
+.site-footer {
+  text-align: center;
+  padding: 40px 20px 60px;
+  font-size: 12px;
+  color: var(--stone-400);
+  font-family: var(--font-mono);
+  letter-spacing: 1px;
+}
+
+/* 象形文字装饰SVG容器 */
+.petroglyph-deco {
+  position: fixed;
+  z-index: 0;
+  opacity: 0.06;
+  pointer-events: none;
+}
+
+.petroglyph-deco {
+  animation: slow-float 8s ease-in-out infinite;
+}
+.petroglyph-deco.top-left  { top: 60px;  left: 20px;  width: 160px; height: 160px; animation-delay: 0s; }
+.petroglyph-deco.bottom-right { bottom: 40px; right: 20px; width: 140px; height: 140px; animation-delay: -4s; }
+
+/* ============================================================
+   8. 响应式
+   ============================================================ */
+
+@media (max-width: 860px) {
+  .hero-block {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  .hero-cutouts {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .cut-figure,
+  .cut-figure.small,
+  .cut-figure.indigo {
+    width: 100%;
+    height: 100px;
+  }
+  .site-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .site-header .header-contact {
+    text-align: left;
+  }
+  .cut-nav a {
+    font-size: 13px;
+    padding: 8px 14px;
+  }
+}

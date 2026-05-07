@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>项目经历 — 李世豪</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<svg class="petroglyph-deco top-left" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2">
+  <path d="M20,80 L30,20 L50,60 L70,30 L80,80" />
+  <circle cx="50" cy="50" r="8" />
+</svg>
+<svg class="petroglyph-deco bottom-right" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2">
+  <path d="M15,15 Q50,5 85,15 T85,85 Q50,95 15,85 T15,15" />
+  <path d="M30,30 L70,70 M70,30 L30,70" />
+</svg>
+
+<header class="site-header anim-drift">
+  <div class="glyph-mark" aria-label="eye mark">
+    <svg class="eye-mark" viewBox="0 0 52 52" role="img" aria-hidden="true">
+      <path d="M26 2 L50 26 L26 50 L2 26 Z" opacity="0.35" />
+      <circle cx="26" cy="26" r="20" />
+      <g class="eye-follow">
+        <circle cx="26" cy="26" r="9" fill="var(--stone-300)" />
+        <circle class="pupil" cx="26" cy="26" r="4" fill="var(--stone-700)" />
+        <path class="pointer" d="M26 6 L22 20 L26 17 L30 20 Z" />
+      </g>
+      <circle cx="26" cy="26" r="3" fill="var(--stone-100)" />
+    </svg>
+  </div>
+  <div class="header-contact">
+    <div class="hc-row">
+      <span class="hc-label">PHONE</span>
+      <span class="hc-value" data-copy="+8618799065701">+86 18799065701</span>
+    </div>
+    <div class="hc-row">
+      <span class="hc-label">EMAIL</span>
+      <span class="hc-value" data-copy="lishihao2424@163.com">lishihao2424@163.com</span>
+    </div>
+  </div>
+</header>
+
+<div class="page-wrap">
+  <nav class="cut-nav">
+    <a href="index.html">首页</a>
+    <a href="education.html">教育</a>
+    <a href="internship.html">实习</a>
+    <a href="projects.html" class="active">项目</a>
+    <a href="campus.html">校园</a>
+    <a href="skills.html">技能</a>
+  </nav>
+
+  <h2 class="section-title anim-drift-1">项目经历</h2>
+
+  <div class="timeline anim-drift-2">
+    <div class="time-stone">
+      2026.03 — 2026.04
+      <span class="range">核心成员</span>
+    </div>
+    <div class="card-body">
+      <h3>AI 跨文化决策助手</h3>
+      <span class="meta">产品验证与原型搭建 · 面向留学生群体</span>
+      <p>聚焦跨文化场景下的信息理解与决策问题，完成需求验证与原型搭建。</p>
+
+      <ul style="margin-top:14px;">
+        <li><strong>用户洞察与需求拆解</strong> — 设计并分析用户问卷，识别核心痛点为信息理解成本高（83%）及文化差异导致决策失误；基于调研拆解关键需求（翻译准确性、决策透明性等）。</li>
+        <li><strong>内容策略与产品设计</strong> — 主导设计结构化内容输出体系（建议+依据+文化提示+可信度），参与基于 RAG 架构的 AI 原型设计（Coze 平台），支持中英日韩多语种交互。</li>
+        <li><strong>内容建设与质量优化</strong> — 设计公平性测试机制（性别/国籍/年龄等维度），优化输出一致性（90%+）。</li>
+      </ul>
+
+      <div class="impact-strip">0→1 产品验证，原型已上线</div>
+      <div class="impact-strip" style="margin-left:8px;">多语种交互 + 结构化输出</div>
+      <div class="impact-strip" style="margin-left:8px;">87% 使用意愿验证</div>
+    </div>
+  </div>
+
+  <!-- 辅助面板 -->
+  <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap:18px; margin-top:28px;">
+    <div class="cut-panel cut-3 anim-drift-4" style="padding:22px;">
+      <h4 style="font-size:16px; margin-bottom:8px; letter-spacing:1px;">方法论沉淀</h4>
+      <p style="font-size:14px; color:var(--stone-500);">将翻译研究中的"信达雅"框架迁移至 AI 输出质量评估，建立可复用的多语言内容校准模型。</p>
+    </div>
+    <div class="cut-panel cut-1 anim-drift-4" style="padding:22px;">
+      <h4 style="font-size:16px; margin-bottom:8px; letter-spacing:1px;">信息结构</h4>
+      <p style="font-size:14px; color:var(--stone-500);">将输出固定为"结论—依据—情境提示—风险/下一步"，降低阅读负担并提升决策可用性。</p>
+    </div>
+    <div class="cut-panel cut-2 anim-drift-5" style="padding:22px;">
+      <h4 style="font-size:16px; margin-bottom:8px; letter-spacing:1px;">质量评估</h4>
+      <p style="font-size:14px; color:var(--stone-500);">从一致性、可解释性、文化敏感性三维度建立检查清单，支持快速迭代与复盘。</p>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  李世豪 · 2026
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

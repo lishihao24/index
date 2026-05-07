@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>李世豪 — 个人石刻与剪纸</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- 象形文字背景装饰 -->
+<svg class="petroglyph-deco top-left" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2">
+  <path d="M20,80 L30,20 L50,60 L70,30 L80,80" />
+  <circle cx="50" cy="50" r="8" />
+  <path d="M10,50 L90,50 M50,10 L50,90" />
+</svg>
+<svg class="petroglyph-deco bottom-right" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2">
+  <path d="M15,15 Q50,5 85,15 T85,85 Q50,95 15,85 T15,15" />
+  <path d="M30,30 L70,70 M70,30 L30,70" />
+</svg>
+
+<header class="site-header anim-drift">
+  <div class="glyph-mark" title="象形记号" aria-label="eye mark">
+    <svg class="eye-mark" viewBox="0 0 52 52" role="img" aria-hidden="true">
+      <path d="M26 2 L50 26 L26 50 L2 26 Z" opacity="0.35" />
+      <circle cx="26" cy="26" r="20" />
+      <g class="eye-follow">
+        <circle cx="26" cy="26" r="9" fill="var(--stone-300)" />
+        <circle class="pupil" cx="26" cy="26" r="4" fill="var(--stone-700)" />
+        <path class="pointer" d="M26 6 L22 20 L26 17 L30 20 Z" />
+      </g>
+      <circle cx="26" cy="26" r="3" fill="var(--stone-100)" />
+    </svg>
+  </div>
+  <div class="header-contact">
+    <div class="hc-row">
+      <span class="hc-label">PHONE</span>
+      <span class="hc-value" data-copy="+8618799065701">+86 18799065701</span>
+    </div>
+    <div class="hc-row">
+      <span class="hc-label">EMAIL</span>
+      <span class="hc-value" data-copy="lishihao2424@163.com">lishihao2424@163.com</span>
+    </div>
+  </div>
+</header>
+
+<div class="page-wrap">
+  <nav class="cut-nav">
+    <a href="index.html" class="active">首页</a>
+    <a href="education.html">教育</a>
+    <a href="internship.html">实习</a>
+    <a href="projects.html">项目</a>
+    <a href="campus.html">校园</a>
+    <a href="skills.html">技能</a>
+  </nav>
+
+  <section class="hero-block">
+    <div class="hero-stone anim-drift-1">
+      <h1>李世豪</h1>
+      <p class="subtitle">用户理解 · 内容结构 · 工具应用</p>
+      <p style="font-size:14px; line-height:1.9; color:var(--stone-200); max-width:520px;">
+        <span style="display:flex; justify-content:space-between; gap:16px;">
+          <span>西北大学 · 英语笔译 硕士</span>
+          <span style="white-space:nowrap;">2025.09 — 2028.06</span>
+        </span>
+        <span style="display:flex; justify-content:space-between; gap:16px;">
+          <span>西安邮电大学 · 英语 本科</span>
+          <span style="white-space:nowrap;">2021.09 — 2025.06</span>
+        </span>
+      </p>
+      <div class="contact-strip">
+        +86 18799065701 &nbsp;|&nbsp; lishihao2424@163.com
+      </div>
+    </div>
+
+    <div class="hero-cutouts">
+      <div class="cut-figure">用 户 理 解</div>
+      <div class="cut-figure small">内 容 结 构</div>
+      <div class="cut-figure indigo">工 具 应 用</div>
+    </div>
+  </section>
+
+  <!-- 概览卡片矩阵 -->
+  <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap:22px; margin-bottom:40px;">
+    <div class="cut-panel cut-2 anim-drift-3">
+      <div style="padding:22px;">
+        <h3 style="font-size:18px; margin-bottom:10px; letter-spacing:2px;">实习</h3>
+        <p style="font-size:14px; color:var(--stone-500);">陕西历史博物馆 · 文物讲解员<br>1000+ 人次服务，95%+ 满意度</p>
+      </div>
+    </div>
+    <div class="cut-panel cut-3 anim-drift-4">
+      <div style="padding:22px;">
+        <h3 style="font-size:18px; margin-bottom:10px; letter-spacing:2px;">项目</h3>
+        <p style="font-size:14px; color:var(--stone-500);">AI 跨文化决策助手<br>0→1 原型验证，87% 使用意愿</p>
+      </div>
+    </div>
+    <div class="cut-panel cut-4 anim-drift-5">
+      <div style="padding:22px;">
+        <h3 style="font-size:18px; margin-bottom:10px; letter-spacing:2px;">校园</h3>
+        <p style="font-size:14px; color:var(--stone-500);">党站公众号运营 & 商务拓展<br>粉丝净增 300+，赞助 7000 元</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  李世豪 · 2026
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

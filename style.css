@@ -1,9 +1,8 @@
-/* ============================================================
+﻿/* ============================================================
    Matisse Cut-Out & Petroglyph System — 李世豪个人网站
    ============================================================ */
 
 /* ── 字体与根变量 ── */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&display=swap');
 
 :root {
   /* 冷灰档案纸画廊色调 */
@@ -23,7 +22,8 @@
   --cut-indigo:    #2a3d4a;
   --cut-ink:       #161615;
 
-  --font-serif: 'Noto Serif SC', 'STSong', 'Songti SC', 'SimSun', Georgia, serif;
+  --font-serif: 'Songti SC', 'STSong', 'SimSun', Georgia, serif;
+  --font-display: 'STKaiti', 'KaiTi', 'Songti SC', 'STSong', 'SimSun', Georgia, serif;
   --font-mono:  'Courier New', Courier, monospace;
 }
 
@@ -367,6 +367,7 @@ body::after {
 }
 
 .hero-stone h1 {
+  font-family: var(--font-display);
   font-size: clamp(38px, 5.5vw, 64px);
   font-weight: 900;
   line-height: 1.15;
@@ -379,6 +380,14 @@ body::after {
   color: var(--stone-200);
   letter-spacing: 2px;
   margin-bottom: 28px;
+}
+
+.hero-stone .hero-intro {
+  font-size: 15px;
+  line-height: 2;
+  color: var(--stone-200);
+  max-width: 520px;
+  margin-bottom: 20px;
 }
 
 .hero-stone .contact-strip {
@@ -408,6 +417,7 @@ body::after {
   align-items: center;
   justify-content: center;
   color: var(--stone-100);
+  font-family: var(--font-display);
   font-size: 28px;
   font-weight: 900;
   letter-spacing: 6px;
@@ -443,6 +453,7 @@ body::after {
 
 .section-title {
   display: inline-block;
+  font-family: var(--font-display);
   font-size: clamp(26px, 3.5vw, 38px);
   font-weight: 900;
   letter-spacing: 3px;
@@ -628,6 +639,77 @@ body::after {
 .petroglyph-deco.top-left  { top: 60px;  left: 20px;  width: 160px; height: 160px; animation-delay: 0s; }
 .petroglyph-deco.bottom-right { bottom: 40px; right: 20px; width: 140px; height: 140px; animation-delay: -4s; }
 
+
+/* ============================================================
+   AI 工作流可视化
+   ============================================================ */
+
+.ai-workflow {
+  margin-top: 24px;
+  padding: 20px;
+  border: 2px dashed var(--stone-400);
+  background: rgba(47,95,88,0.04);
+  border-radius: 2px;
+}
+
+.ai-workflow .workflow-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: var(--cut-terracotta);
+  margin-bottom: 16px;
+  font-weight: 700;
+}
+
+.ai-workflow .flow-chart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.ai-workflow .flow-node {
+  width: 100%;
+  max-width: 360px;
+  padding: 10px 16px;
+  border: 2px solid var(--stone-400);
+  background: var(--stone-100);
+  text-align: center;
+}
+
+.ai-workflow .flow-node.skill {
+  border-color: var(--cut-terracotta);
+  background: rgba(47,95,88,0.08);
+}
+
+.ai-workflow .flow-node.result {
+  border-color: var(--cut-indigo);
+  background: var(--cut-indigo);
+  color: var(--stone-100);
+}
+
+.ai-workflow .flow-node.result .flow-node-desc {
+  color: var(--stone-300);
+}
+
+.ai-workflow .flow-node-title {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.ai-workflow .flow-node-desc {
+  font-size: 12px;
+  color: var(--stone-500);
+  margin-top: 2px;
+}
+
+.ai-workflow .flow-arrow {
+  font-size: 18px;
+  color: var(--stone-400);
+  line-height: 1;
+}
+
 /* ============================================================
    8. 响应式
    ============================================================ */
@@ -638,8 +720,7 @@ body::after {
     min-height: auto;
   }
   .hero-cutouts {
-    flex-direction: row;
-    flex-wrap: wrap;
+    display: none;
   }
   .cut-figure,
   .cut-figure.small,
@@ -660,3 +741,4 @@ body::after {
     padding: 8px 14px;
   }
 }
+

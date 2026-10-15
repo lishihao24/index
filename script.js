@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Matisse Cut-Out & Petroglyph System — 交互脚本
  * 刻意保留手工瑕疵的动画控制
  */
@@ -22,13 +22,13 @@
       const body = document.body;
 
       // 页面退出：像被风吹散的剪纸
-      body.style.transition = 'transform 0.35s cubic-bezier(0.55, 0.055, 0.675, 0.19), opacity 0.35s ease';
+      body.style.transition = 'transform 0.15s cubic-bezier(0.55, 0.055, 0.675, 0.19), opacity 0.15s ease';
       body.style.transform = 'translateY(-12px) rotate(0.8deg) scale(0.98)';
       body.style.opacity = '0';
 
       setTimeout(() => {
         window.location.href = href;
-      }, 350);
+      }, 150);
     });
   });
 
@@ -117,3 +117,4 @@
     init();
   }
 })();
+

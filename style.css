@@ -665,3 +665,28 @@ body::after {
 
 
 
+
+/* ============================================================
+   9. 简历下载按钮
+   ============================================================ */
+
+.resume-btn {
+  display: inline-block;
+  margin-top: 18px;
+  padding: 12px 28px;
+  font-family: var(--font-serif);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--stone-100);
+  background: var(--cut-terracotta);
+  border: 2px solid var(--stone-700);
+  text-decoration: none;
+  clip-path: polygon(0 2%, 100% 0, 98% 100%, 2% 96%);
+  transform: rotate(-0.3deg);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.resume-btn:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 3px 4px 0 rgba(0,0,0,0.25);
+}
